@@ -6,6 +6,8 @@ const ChangeControlRequestForm = () => {
     projectName: "",
     requestedBy: "",
     requestNo: "",
+    date: "",
+    nameOfRequest: "",
     changeDescription: "",
     changeReason: "",
     impactOfChange: "",
@@ -33,7 +35,7 @@ const ChangeControlRequestForm = () => {
     <div className="flex justify-center p-8">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-3xl bg-blue-900 text-white p-6 rounded-lg"
+        className="w-full max-w-4xl bg-blue-900 text-white p-6 rounded-lg"
       >
         <h2 className="text-2xl font-bold mb-6">Change Control Request Form</h2>
 
@@ -53,34 +55,69 @@ const ChangeControlRequestForm = () => {
             />
           </div>
 
-          {/* Requested By */}
-          <div>
-            <label htmlFor="requestedBy" className="block mb-2">
-              Requested By
-            </label>
-            <input
-              type="text"
-              name="requestedBy"
-              value={formData.requestedBy}
-              onChange={handleChange}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
-              required
-            />
-          </div>
+          <div className="grid grid-cols-3">
+            <div className="mr-2 grid-cols-1">
+              {/* Requested By */}
+              <div>
+                <label htmlFor="requestedBy" className="block mb-2">
+                  Requested By
+                </label>
+                <input
+                  type="text"
+                  name="requestedBy"
+                  value={formData.requestedBy}
+                  onChange={handleChange}
+                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  required
+                />
+              </div>
 
-          {/* Request No */}
-          <div>
-            <label htmlFor="requestNo" className="block mb-2">
-              Request No
-            </label>
-            <input
-              type="text"
-              name="requestNo"
-              value={formData.requestNo}
-              onChange={handleChange}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
-              required
-            />
+              {/* Request No */}
+              <div className="mt-4">
+                <label htmlFor="requestNo" className="block mb-2">
+                  Request No
+                </label>
+                <input
+                  type="number"
+                  name="requestNo"
+                  value={formData.requestNo}
+                  onChange={handleChange}
+                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  required
+                />
+              </div>
+            </div>
+            <div className="col-span-2 ml-4">
+              {/* Date */}
+              <div>
+                <label htmlFor="requestedBy" className="block mb-2">
+                  Date
+                </label>
+                <input
+                  type="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleChange}
+                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  required
+                />
+              </div>
+
+              {/* Request Name */}
+              <div className="mt-4">
+                <label htmlFor="requestNo" className="block mb-2">
+                  Request Name
+                </label>
+                <input
+                  type="text"
+                  name="nameOfRequest"
+                  value={formData.nameOfRequest}
+                  onChange={handleChange}
+                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  required
+                />
+              </div>
+            </div>
           </div>
 
           {/* Change Description */}
