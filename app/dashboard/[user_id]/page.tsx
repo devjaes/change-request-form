@@ -23,11 +23,13 @@ const Page = async ({ params }: { params: { user_id: string } }) => {
   user_name = data[0].user_name;
 
   return (
-    <div>
-      <h1>Dashboard de {user_name}</h1>
+    <div className="flex flex-col justify-center p-8 w-full max-w-6xl">
+      <h1 className="text-3xl text-center font-semibold">
+        Dashboard de {user_name}
+      </h1>
+
       <UsersTable />
       <ChangeControlRequestForm />
-      <RegistrationForm />
     </div>
   );
 };
