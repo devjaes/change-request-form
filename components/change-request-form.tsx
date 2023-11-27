@@ -2,13 +2,15 @@
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 
-const ChangeControlRequestForm = () => {
+const ChangeControlRequestForm = ({ user_id, user_name, user_last_name }: { user_id: string, user_name: string, user_last_name: string }) => {
   const supabase = createClient();
+  const getActualDate = new Date();
+  const formattedDate = getActualDate.toISOString().slice(0, 10);
   const [formData, setFormData] = useState({
     projectName: "",
-    requestedBy: "",
+    requestedBy: user_name + " " + user_last_name,
     requestNo: "",
-    date: "",
+    date: formattedDate,
     nameOfRequest: "",
     changeDescription: "",
     changeReason: "",
@@ -18,6 +20,8 @@ const ChangeControlRequestForm = () => {
     approvalDate: "",
     approvedBy: "",
   });
+
+
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -29,24 +33,6 @@ const ChangeControlRequestForm = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // Handle form submission
-    //console.log(formData);
-    /*
-    const dataToInsert = {
-      id: formData.requestNo,
-      created_at: formData.date,
-      project_name: formData.projectName,
-      requested_by: formData.requestedBy,
-      request_name: formData.nameOfRequest,
-      change_description: formData.changeDescription,
-      change_reason: formData.changeReason,
-      impact_change: formData.impactOfChange,
-      proposed_action: formData.proposedAction,
-      status: formData.status,
-      approval_date: formData.approvalDate,
-      approved_by: formData.approvedBy,
-    };
-    */
 
     const emailApprovedBy = formData.approvedBy;
     const { data: response } = await supabase
@@ -68,10 +54,11 @@ const ChangeControlRequestForm = () => {
       console.log("Manager");
     }
 
+
     const dataToInsert = {
       created_at: formData.date,
       project_name: formData.projectName,
-      requested_by: formData.requestedBy,
+      requested_by: user_id,
       request_name: formData.nameOfRequest,
       change_description: formData.changeDescription,
       change_reason: formData.changeReason,
@@ -90,6 +77,8 @@ const ChangeControlRequestForm = () => {
       console.log("Success");
     }
   };
+
+
 
   return (
     <div className="flex justify-center p-8">
@@ -157,6 +146,7 @@ const ChangeControlRequestForm = () => {
                   type="date"
                   name="date"
                   value={formData.date}
+                  disabled
                   onChange={handleChange}
                   className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
                   required
