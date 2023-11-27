@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
+import { createClient } from "@/utils/supabase/client";
 
 const ChangeControlRequestForm = () => {
+  const supabase = createClient();
   const [formData, setFormData] = useState({
     projectName: "",
     requestedBy: "",
@@ -25,10 +27,68 @@ const ChangeControlRequestForm = () => {
     }));
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     // Handle form submission
-    console.log(formData);
+    //console.log(formData);
+    /*
+    const dataToInsert = {
+      id: formData.requestNo,
+      created_at: formData.date,
+      project_name: formData.projectName,
+      requested_by: formData.requestedBy,
+      request_name: formData.nameOfRequest,
+      change_description: formData.changeDescription,
+      change_reason: formData.changeReason,
+      impact_change: formData.impactOfChange,
+      proposed_action: formData.proposedAction,
+      status: formData.status,
+      approval_date: formData.approvalDate,
+      approved_by: formData.approvedBy,
+    };
+    */
+
+    const emailApprovedBy = formData.approvedBy;
+    const { data: response } = await supabase
+      .from("users")
+      .select()
+      .eq("user_email", emailApprovedBy);
+
+    let approvedBy;
+    if (response && response.length > 0) {
+      approvedBy = response[0];
+    } else {
+      console.log(null);
+    }
+
+    if (approvedBy?.user_role !== "MANAGER") {
+      console.log("Error al crear usuario");
+      return;
+    } else {
+      console.log("Manager");
+    }
+
+    const dataToInsert = {
+      created_at: formData.date,
+      project_name: formData.projectName,
+      requested_by: formData.requestedBy,
+      request_name: formData.nameOfRequest,
+      change_description: formData.changeDescription,
+      change_reason: formData.changeReason,
+      impact_change: formData.impactOfChange,
+      proposed_action: formData.proposedAction,
+    };
+
+    const { error } = await supabase
+      .from("change_request")
+      .insert([dataToInsert]);
+
+    if (error) {
+      console.log(error);
+      return;
+    } else {
+      console.log("Success");
+    }
   };
 
   return (

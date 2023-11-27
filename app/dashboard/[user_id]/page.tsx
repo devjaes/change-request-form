@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-const Page = async ({ params }: { params: { user_id: string } }) => {
+const Page = async ({ params }: { params: { user_id: String } }) => {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   let user_name = "";
@@ -29,7 +29,7 @@ const Page = async ({ params }: { params: { user_id: string } }) => {
       </h1>
 
       <UsersTable />
-      <ChangeControlRequestForm />
+      <ChangeControlRequestForm userId={params.user_id} />
     </div>
   );
 };
