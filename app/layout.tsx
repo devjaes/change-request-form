@@ -19,10 +19,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className}>
-      <body className="bg-background text-foreground">
-        <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-          <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-            <h2>Change Request App</h2>
+      <body className="bg-background text-foreground ">
+      <nav className="w-full flex justify-between items-center border-b border-b-foreground/10 h-16 px-3">
+          <span className="flex-1"></span> 
+          <h2 className="flex-none mx-auto">Change Request App</h2> 
+          <div className="flex flex-1 justify-end m-2">
             <AuthButton />
           </div>
         </nav>

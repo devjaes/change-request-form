@@ -11,8 +11,8 @@ const JoinDashboard = async () => {
   } = await supabase.auth.getUser();
 
   return (
-    <div className="w-full h-full">
-      <div className="bg-yellow-600 h-56 w-auto">asd</div>
+    <div className="w-full h-full ">
+      <div className="bg-slate-500 h-56 w-auto flex items-center justify-center"></div>
       {user?.id ? (
         <Link href={`/dashboard/${user.id}`}>Join Dashboard</Link>
       ) : (
