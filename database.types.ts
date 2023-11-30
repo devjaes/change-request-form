@@ -18,8 +18,8 @@ export interface Database {
           impact_change: string
           project_name: string
           proposed_action: string
-          request_by: number | null
           request_name: string
+          requested_by: string | null
         }
         Insert: {
           change_description: string
@@ -29,8 +29,8 @@ export interface Database {
           impact_change: string
           project_name: string
           proposed_action: string
-          request_by?: number | null
           request_name: string
+          requested_by?: string | null
         }
         Update: {
           change_description?: string
@@ -40,16 +40,16 @@ export interface Database {
           impact_change?: string
           project_name?: string
           proposed_action?: string
-          request_by?: number | null
           request_name?: string
+          requested_by?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "change_request_request_by_fkey"
-            columns: ["request_by"]
+            foreignKeyName: "change_request_requested_by_fkey"
+            columns: ["requested_by"]
             isOneToOne: false
             referencedRelation: "users"
-            referencedColumns: ["id"]
+            referencedColumns: ["user_id"]
           }
         ]
       }
