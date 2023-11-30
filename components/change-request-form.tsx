@@ -1,12 +1,16 @@
 "use client";
 import { useState } from "react";
+import { createClient } from "@/utils/supabase/client";
 
-const ChangeControlRequestForm = () => {
+const ChangeControlRequestForm = ({ user_id, user_name, user_last_name }: { user_id: string, user_name: string, user_last_name: string }) => {
+  const supabase = createClient();
+  const getActualDate = new Date();
+  const formattedDate = getActualDate.toISOString().slice(0, 10);
   const [formData, setFormData] = useState({
     projectName: "",
-    requestedBy: "",
+    requestedBy: user_name + " " + user_last_name,
     requestNo: "",
-    date: "",
+    date: formattedDate,
     nameOfRequest: "",
     changeDescription: "",
     changeReason: "",
@@ -17,6 +21,8 @@ const ChangeControlRequestForm = () => {
     approvedBy: "",
   });
 
+
+
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -25,11 +31,54 @@ const ChangeControlRequestForm = () => {
     }));
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
+
+    const emailApprovedBy = formData.approvedBy;
+    const { data: response } = await supabase
+      .from("users")
+      .select()
+      .eq("user_email", emailApprovedBy);
+
+    let approvedBy;
+    if (response && response.length > 0) {
+      approvedBy = response[0];
+    } else {
+      console.log(null);
+    }
+
+    if (approvedBy?.user_role !== "MANAGER") {
+      console.log("Error al crear usuario");
+      return;
+    } else {
+      console.log("Manager");
+    }
+
+
+    const dataToInsert = {
+      created_at: formData.date,
+      project_name: formData.projectName,
+      requested_by: user_id,
+      request_name: formData.nameOfRequest,
+      change_description: formData.changeDescription,
+      change_reason: formData.changeReason,
+      impact_change: formData.impactOfChange,
+      proposed_action: formData.proposedAction,
+    };
+
+    const { error } = await supabase
+      .from("change_request")
+      .insert([dataToInsert]);
+
+    if (error) {
+      console.log(error);
+      return;
+    } else {
+      console.log("Success");
+    }
   };
+
+
 
   return (
     <div className="flex justify-center p-8">
@@ -97,6 +146,7 @@ const ChangeControlRequestForm = () => {
                   type="date"
                   name="date"
                   value={formData.date}
+                  disabled
                   onChange={handleChange}
                   className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
                   required
