@@ -10,13 +10,14 @@ interface Request {
     impact_change: string;
     project_name: string;
     proposed_action: string;
-    request_by: number | null;
     request_name: string;
+    requested_by: string | null;
+
 }
 
 const AllRequestTable: React.FC = () => {
     const supabase = createClient();
-    const [requests, setRequests] = useState<Request[]>([]);
+    const [requests, setRequests] = useState<any[]>([]);
 
 
     useEffect(() => {
@@ -24,11 +25,10 @@ const AllRequestTable: React.FC = () => {
             try {
                 const { data, error } = await supabase
                     .from("change_request")
-                    .select("*")
+                    .select(`change_description, change_reason, created_at, id, impact_change, project_name, proposed_action, request_name, requested_by(user_name)`)
                 if (error) {
                     throw error;
                 }
-                console.log(data);
                 setRequests(data);
             } catch (error) {
                 console.error('Error fetching requests:', error);
@@ -37,7 +37,6 @@ const AllRequestTable: React.FC = () => {
         fetchRequests();
     }, []);
 
-    console.log(requests);
     return (
         <table>
             <thead>
@@ -56,6 +55,7 @@ const AllRequestTable: React.FC = () => {
                         <td>{request.change_description}</td>
                         <td>{request.change_reason}</td>
                         <td>{request.impact_change}</td>
+                        <td>{request.requested_by}</td>
                     </tr>
                 ))}
             </tbody>
