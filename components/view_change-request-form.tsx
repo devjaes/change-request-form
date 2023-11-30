@@ -1,34 +1,85 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { RequestData } from "@/database.types";
 
 interface RequestFormProps {
-  last_request_id?: number;
-  user_id: string;
-  user_name: string;
-  user_last_name: string;
+  request_id: number;
+  isDeveloper?: boolean;
+  manager_id?: string;
+  isModifiable?: boolean;
 }
 
-const ChangeControlRequestForm = ({
-  last_request_id,
-  user_id,
-  user_name,
-  user_last_name,
+const ViewChangeControlRequestForm = ({
+  request_id,
+  isDeveloper,
+  manager_id,
+  isModifiable,
 }: RequestFormProps) => {
   const supabase = createClient();
+
+  const getRequestData = async () => {
+    const { data, error } = await supabase
+      .from("change_request")
+      .select(
+        `change_description, change_reason, created_at, id, impact_change, project_name, proposed_action, request_name, requested_by(user_name, user_last_name)`
+      )
+      .eq("id", request_id)
+      .limit(1);
+    if (error) {
+      throw error;
+    }
+    return data[0];
+  };
+
+  const getReviewRequestData = async () => {
+    const { data, error } = await supabase
+      .from("manage_change_request")
+      .select(
+        `id, change_request_id, aproval_date, created_at, manager_id(id, user_name, user_last_name), status`
+      )
+      .eq("change_request_id", request_id)
+      .limit(1);
+    if (error) {
+      console.log(error);
+      return;
+    }
+    return data[0];
+  };
+
+  const [requestsData, setRequestsData] = useState<RequestData | any>(null);
+  const [reviewRequestData, setReviewRequestData] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const requestsData = await getRequestData();
+        const reviewRequestData = await getReviewRequestData();
+        setRequestsData(requestsData);
+        setReviewRequestData(reviewRequestData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequests();
+  }, []);
+
   const getActualDate = new Date();
   const formattedDate = getActualDate.toISOString().slice(0, 10);
   const [formData, setFormData] = useState({
-    projectName: "",
-    requestedBy: user_name + " " + user_last_name,
-    requestNo: last_request_id ? last_request_id + 1 : "",
-    date: formattedDate,
-    nameOfRequest: "",
-    changeDescription: "",
-    changeReason: "",
-    impactOfChange: "",
-    proposedAction: "",
+    projectName: requestsData.project_name,
+    requestedBy:
+      requestsData.requested_by.user_name +
+      " " +
+      requestsData.requested_by.user_last_name,
+    requestNo: requestsData.id,
+    date: requestsData.created_at,
+    nameOfRequest: requestsData.request_name,
+    changeDescription: requestsData.change_description,
+    changeReason: requestsData.change_reason,
+    impactOfChange: requestsData.impact_change,
+    proposedAction: requestsData.proposed_action,
+    status: reviewRequestData?.status || "",
   });
 
   const handleChange = (e: any) => {
@@ -43,18 +94,14 @@ const ChangeControlRequestForm = ({
     e.preventDefault();
 
     const dataToInsert = {
-      created_at: formData.date,
-      project_name: formData.projectName,
-      requested_by: user_id,
-      request_name: formData.nameOfRequest,
-      change_description: formData.changeDescription,
-      change_reason: formData.changeReason,
-      impact_change: formData.impactOfChange,
-      proposed_action: formData.proposedAction,
+      change_request_id: request_id,
+      manager_id: requestsData.requested_by.id,
+      aproval_date: formattedDate,
+      status: "IN REVIEW" as "IN_REVIEW" | "APROVED" | "REJECTED" | null,
     };
 
     const { error } = await supabase
-      .from("change_request")
+      .from("manage_change_request")
       .insert([dataToInsert]);
 
     if (error) {
@@ -103,7 +150,6 @@ const ChangeControlRequestForm = ({
                   disabled
                   onChange={handleChange}
                   className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
-                  required
                 />
               </div>
 
@@ -119,7 +165,6 @@ const ChangeControlRequestForm = ({
                   disabled
                   onChange={handleChange}
                   className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
-                  required
                 />
               </div>
             </div>
@@ -136,7 +181,6 @@ const ChangeControlRequestForm = ({
                   disabled
                   onChange={handleChange}
                   className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
-                  required
                 />
               </div>
 
@@ -151,7 +195,6 @@ const ChangeControlRequestForm = ({
                   value={formData.nameOfRequest}
                   onChange={handleChange}
                   className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
-                  required
                 />
               </div>
             </div>
@@ -168,7 +211,6 @@ const ChangeControlRequestForm = ({
               onChange={handleChange}
               rows={3}
               className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
-              required
             />
           </div>
 
@@ -183,7 +225,6 @@ const ChangeControlRequestForm = ({
               onChange={handleChange}
               rows={3}
               className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
-              required
             />
           </div>
 
@@ -198,7 +239,6 @@ const ChangeControlRequestForm = ({
               onChange={handleChange}
               rows={3}
               className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
-              required
             />
           </div>
 
@@ -213,7 +253,54 @@ const ChangeControlRequestForm = ({
               onChange={handleChange}
               rows={3}
               className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
-              required
+            />
+          </div>
+
+          {/* Status */}
+          <div className={isDeveloper && isModifiable ? "hidden " : "block"}>
+            <label htmlFor="status" className="block mb-2">
+              Status
+            </label>
+            <select
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2 disabled:"
+              required={!isDeveloper}
+            >
+              <option value="In Review">In Review</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+
+          {/* Approval Date */}
+          <div className={isDeveloper && isModifiable ? "hidden " : "block"}>
+            <label htmlFor="approvalDate" className="block mb-2">
+              Approval Date
+            </label>
+            <input
+              type="date"
+              name="approvalDate"
+              value={formattedDate}
+              onChange={handleChange}
+              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              required={!isDeveloper}
+            />
+          </div>
+
+          {/* Approved By */}
+          <div className={isDeveloper && isModifiable ? "hidden" : "block"}>
+            <label htmlFor="approvedBy" className="block mb-2">
+              Approved By
+            </label>
+            <input
+              type="text"
+              name="approvedBy"
+              value={manager_id}
+              onChange={handleChange}
+              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              required={!isDeveloper}
             />
           </div>
 
@@ -231,4 +318,4 @@ const ChangeControlRequestForm = ({
   );
 };
 
-export default ChangeControlRequestForm;
+export default ViewChangeControlRequestForm;

@@ -59,7 +59,7 @@ export interface Database {
           change_request_id: number | null
           created_at: string
           id: number
-          manager_id: number | null
+          manager_id: string | null
           status: Database["public"]["Enums"]["request_status"] | null
         }
         Insert: {
@@ -151,4 +151,16 @@ export interface Database {
       [_ in never]: never
     }
   }
+}
+
+export interface RequestData {
+  change_description: string
+  change_reason: string
+  created_at: string
+  id: number
+  impact_change: string
+  project_name: string
+  proposed_action: string
+  request_name: string
+  requested_by: string | null
 }
