@@ -20,13 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">
-        <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16 bg-blue-500 text-white dark:bg-slate-700">
+        <nav className="w-full flex justify-center border-b border-b-foreground/10 h-20 bg-chetwode-blue-600 text-chetwode-blue-50 dark:bg-slate-700">
           <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
             <h2 className="text-xl font-semibold">Change Request App</h2>
             <AuthButton />
           </div>
         </nav>
-        <main className="min-h-screen flex flex-col items-center">
+        <main className="min-h-screen flex justify-center items-center w-full bg-chetwode-blue-50">
           {children}
         </main>
       </body>
