@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground bg-white">
-        <nav className="w-full flex border-b border-b-foreground/10 h-16 bg-chetwode-blue-900 text-white font-extra-light p-3">
+        <nav className="w-full flex border-b border-b-foreground/10 h-16 bg-persian-blue-950 text-white font-extra-light p-3">
           <div className="flex justify-between items-center w-full max-w-4xl mx-auto">
             <h2 className="text-xl font-semibold flex justify-center">
               Change Request App

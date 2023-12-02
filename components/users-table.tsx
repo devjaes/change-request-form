@@ -12,7 +12,7 @@ const UsersTable = async () => {
   return (
     <div className="flex flex-col justify-center p-8">
       <div className="flex justify-between">
-        <h2 className="block text-persian-blue-800 text-2xl font-bold mb-6">
+        <h2 className="block text-persian-blue-700 text-2xl font-bold mb-6">
           Users Table
         </h2>
         <RegistrationForm />

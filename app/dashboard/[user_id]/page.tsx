@@ -25,7 +25,7 @@ const Page = async ({ params }: { params: { user_id: string } }) => {
   const user_role = data[0].user_role;
 
   return (
-    <div className="flex flex-col justify-center p-8 w-screen max-w-6xl bg-white text-chetwode-blue-900">
+    <div className="flex flex-col justify-center p-8 w-screen max-w-6xl bg-white text-purple-800">
       <h1 className="text-3xl text-center font-semibold p-4">
         Dashboard de {user_name}
       </h1>

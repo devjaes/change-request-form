@@ -81,7 +81,7 @@ const AllRequestTable = ({
 
   return (
     <div>
-      <h1 className="text-2xl text-left font-semibold p-4 mb-6 text-persian-blue-800">
+      <h1 className="text-2xl text-left font-bold p-4 mb-6 text-persian-blue-700">
         All Requests
       </h1>
 
