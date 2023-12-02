@@ -81,36 +81,59 @@ const AllRequestTable = ({
 
   return (
     <div>
-      <h1 className="text-2xl text-left font-semibold p-4">All Requests</h1>
+      <h1 className="text-2xl text-left font-semibold p-4 mb-6 text-persian-blue-800">
+        All Requests
+      </h1>
 
       <div className="flex justify-center w-full">
-        <table className="w-11/12">
-          <thead>
-            <tr>
-              <th>Request Name</th>
-              <th>Change Description</th>
-              <th>Change Reason</th>
-              <th>Impact of Change</th>
-              {isManager ? <th>Requested By</th> : <th>Approved By</th>}
-              <th>Status</th>
-              <th>Options</th>
+        <table className="w-11/12  rounded-md overflow-hidden shadow-xl shadow-gray-500 ">
+          <thead className="bg-chetwode-blue-700 h-14">
+            <tr className="border h-14 text-white">
+              <th className="border border-chetwode-blue-700 w-40 ">
+                Request Name
+              </th>
+              <th className="border border-chetwode-blue-700 w-52">
+                Change Description
+              </th>
+              <th className="border border-chetwode-blue-700 w-48">
+                Change Reason
+              </th>
+              <th className="border border-chetwode-blue-700 w-48">
+                Impact of Change
+              </th>
+              {isManager ? (
+                <th className="border border-chetwode-blue-700 w-40">
+                  Requested By
+                </th>
+              ) : (
+                <th className="border border-chetwode-blue-700 w-40">
+                  Approved By
+                </th>
+              )}
+              <th className="border border-chetwode-blue-700 w-40">Status</th>
+              <th className="border border-chetwode-blue-700 w-40">Options</th>
             </tr>
           </thead>
-          <tbody>
-            {requests.map((request) => (
-              <tr key={request.id}>
-                <td>{request.request_name}</td>
-                <td>{request.change_description}</td>
-                <td>{request.change_reason}</td>
-                <td>{request.impact_change}</td>
+          <tbody className="text-black text-center border h-14 ">
+            {requests.map((request, index) => (
+              <tr
+                key={request.id}
+                className={`${
+                  index % 2 === 0 ? "bg-white" : "bg-gray-100"
+                } h-12`}
+              >
+                <td className="border">{request.request_name}</td>
+                <td className="border ">{request.change_description}</td>
+                <td className="border ">{request.change_reason}</td>
+                <td className="border ">{request.impact_change}</td>
                 {isManager ? (
-                  <td>
+                  <td className="border ">
                     {request.requested_by.user_name +
                       " " +
                       request.requested_by.user_last_name}
                   </td>
                 ) : (
-                  <td>
+                  <td className="border ">
                     {request.reviewRequestData
                       ? request.reviewRequestData?.manager_id.user_name +
                         " " +
@@ -118,14 +141,14 @@ const AllRequestTable = ({
                       : "Pending"}
                   </td>
                 )}
-                <td>
+                <td className="border ">
                   {request.reviewRequestData
                     ? request.reviewRequestData.status
                     : "Pending"}
                 </td>
-                <td>
+                <td className="border ">
                   <Link
-                    className="py-2 px-4 rounded-md no-underline bg-slate-100 text-black dark:text-white dark:bg-btn-background hover:bg-btn-background-hover"
+                    className=" px-4 rounded-md no-underline  text-black hover:text-chetwode-blue-400"
                     href={"/view-request/[request_id]"}
                     as={`${userId}/view-request/${request.id}`}
                   >

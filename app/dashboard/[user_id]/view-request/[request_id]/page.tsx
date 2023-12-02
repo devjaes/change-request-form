@@ -7,7 +7,7 @@ const Page = ({
   params: { user_id: string; request_id: string };
 }) => {
   return (
-    <div>
+    <div className="">
       <ViewChangeControlRequestForm
         userId={params.user_id}
         request_id={Number(params.request_id)}

@@ -25,7 +25,7 @@ const Page = async ({ params }: { params: { user_id: string } }) => {
   const user_role = data[0].user_role;
 
   return (
-    <div className="flex flex-col justify-center p-8 w-full max-w-6xl">
+    <div className="flex flex-col justify-center p-8 w-screen max-w-6xl bg-white text-chetwode-blue-900">
       <h1 className="text-3xl text-center font-semibold p-4">
         Dashboard de {user_name}
       </h1>
@@ -41,16 +41,11 @@ const Page = async ({ params }: { params: { user_id: string } }) => {
             href="/request/[user_id]/create-request"
             as={`/request/${params.user_id}/create-request`}
           >
-            <p className="py-3 px-4 flex rounded-md no-underline text-lg border text-center bg-slate-100 text-black dark:text-white dark:bg-slate-800 hover:bg-slate-700 transition-colors">
+            <p className="py-3 px-4 flex rounded-md no-underline text-lg  text-center  bg-gradient-to-r from-chetwode-blue-400 to-chetwode-blue-800 text-white font-bold">
               Crear petición
             </p>
           </Link>
           <AllRequestTable userId={params.user_id} isManager={false} />
-          <ChangeControlRequestForm
-            user_id={params.user_id}
-            user_name={user_name}
-            user_last_name={user_lastName}
-          />
         </>
       )}
     </div>
