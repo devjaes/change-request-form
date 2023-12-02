@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { RequestData } from "@/database.types";
 
 interface RequestFormProps {
   last_request_id?: number;

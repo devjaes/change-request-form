@@ -1,22 +1,35 @@
 "use client";
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { RequestData } from "@/database.types";
+import Link from "next/link";
 
 interface RequestFormProps {
   request_id: number;
-  isDeveloper?: boolean;
-  manager_id?: string;
-  isModifiable?: boolean;
+  userId: string;
 }
 
 const ViewChangeControlRequestForm = ({
   request_id,
-  isDeveloper,
-  manager_id,
-  isModifiable,
+  userId,
 }: RequestFormProps) => {
   const supabase = createClient();
+  const [isDeveloper, setIsDeveloper] = useState(false);
+
+  const checkUserRole = async () => {
+    const { data, error } = await supabase
+      .from("users")
+      .select("user_role")
+      .eq("user_id", userId)
+      .limit(1);
+    if (error) {
+      console.log(error.message);
+      return;
+    }
+    if (data[0].user_role === "DEVELOPER") {
+      setIsDeveloper(true);
+    }
+    return data[0];
+  };
 
   const getRequestData = async () => {
     const { data, error } = await supabase
@@ -27,8 +40,24 @@ const ViewChangeControlRequestForm = ({
       .eq("id", request_id)
       .limit(1);
     if (error) {
+      console.log(error.message);
       throw error;
     }
+    setFormData((prevData) => ({
+      ...prevData,
+      projectName: data[0].project_name,
+      requestedBy:
+        (data[0] as any).requested_by?.user_name +
+        " " +
+        (data[0] as any).requested_by?.user_last_name,
+      requestNo: data[0].id,
+      date: data[0].created_at.split("T")[0],
+      nameOfRequest: data[0].request_name,
+      changeDescription: data[0].change_description,
+      changeReason: data[0].change_reason,
+      impactOfChange: data[0].impact_change,
+      proposedAction: data[0].proposed_action,
+    }));
     return data[0];
   };
 
@@ -41,14 +70,30 @@ const ViewChangeControlRequestForm = ({
       .eq("change_request_id", request_id)
       .limit(1);
     if (error) {
-      console.log(error);
+      console.log(error.message);
       return;
     }
+    console.log(data[0]);
     return data[0];
   };
 
-  const [requestsData, setRequestsData] = useState<RequestData | any>(null);
-  const [reviewRequestData, setReviewRequestData] = useState<any>(null);
+  const getUserName = async () => {
+    const { data, error } = await supabase
+      .from("users")
+      .select(`user_name, user_last_name`)
+      .eq("user_id", userId)
+      .limit(1);
+    if (error) {
+      console.log(error.message);
+      return;
+    }
+    setUserName(data[0].user_name + " " + data[0].user_last_name);
+    return data[0];
+  };
+
+  const [requestsData, setRequestsData] = useState<any>({});
+  const [reviewRequestData, setReviewRequestData] = useState<any>({});
+  const [userName, setUserName] = useState<any>("");
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -57,28 +102,33 @@ const ViewChangeControlRequestForm = ({
         const reviewRequestData = await getReviewRequestData();
         setRequestsData(requestsData);
         setReviewRequestData(reviewRequestData);
-      } catch (error) {
-        console.log(error);
+        await getUserName();
+        await checkUserRole();
+      } catch (error: any) {
+        console.log({ requestsData }, { reviewRequestData });
+        console.log(error.message);
       }
     };
-    fetchRequests();
+    fetchRequests()
+      .then(() => console.log("Success"))
+      .catch(console.error);
   }, []);
 
   const getActualDate = new Date();
   const formattedDate = getActualDate.toISOString().slice(0, 10);
   const [formData, setFormData] = useState({
-    projectName: requestsData.project_name,
+    projectName: requestsData?.project_name || "",
     requestedBy:
-      requestsData.requested_by.user_name +
-      " " +
-      requestsData.requested_by.user_last_name,
-    requestNo: requestsData.id,
-    date: requestsData.created_at,
-    nameOfRequest: requestsData.request_name,
-    changeDescription: requestsData.change_description,
-    changeReason: requestsData.change_reason,
-    impactOfChange: requestsData.impact_change,
-    proposedAction: requestsData.proposed_action,
+      requestsData?.requested_by?.user_name +
+        " " +
+        requestsData?.requested_by?.user_last_name || "",
+    requestNo: requestsData?.id || "",
+    date: requestsData?.created_at || "",
+    nameOfRequest: requestsData?.request_name || "",
+    changeDescription: requestsData?.change_description || "",
+    changeReason: requestsData?.change_reason || "",
+    impactOfChange: requestsData?.impact_change || "",
+    proposedAction: requestsData?.proposed_action || "",
     status: reviewRequestData?.status || "",
   });
 
@@ -95,9 +145,9 @@ const ViewChangeControlRequestForm = ({
 
     const dataToInsert = {
       change_request_id: request_id,
-      manager_id: requestsData.requested_by.id,
+      manager_id: userId,
       aproval_date: formattedDate,
-      status: "IN REVIEW" as "IN_REVIEW" | "APROVED" | "REJECTED" | null,
+      status: formData.status,
     };
 
     const { error } = await supabase
@@ -129,6 +179,7 @@ const ViewChangeControlRequestForm = ({
             <input
               type="text"
               name="projectName"
+              disabled
               value={formData.projectName}
               onChange={handleChange}
               className="w-full rounded-md bg-blue-800 border border-blue-700 p-2 disabled:"
@@ -192,6 +243,7 @@ const ViewChangeControlRequestForm = ({
                 <input
                   type="text"
                   name="nameOfRequest"
+                  disabled
                   value={formData.nameOfRequest}
                   onChange={handleChange}
                   className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
@@ -207,6 +259,7 @@ const ViewChangeControlRequestForm = ({
             </label>
             <textarea
               name="changeDescription"
+              disabled
               value={formData.changeDescription}
               onChange={handleChange}
               rows={3}
@@ -221,6 +274,7 @@ const ViewChangeControlRequestForm = ({
             </label>
             <textarea
               name="changeReason"
+              disabled
               value={formData.changeReason}
               onChange={handleChange}
               rows={3}
@@ -235,6 +289,7 @@ const ViewChangeControlRequestForm = ({
             </label>
             <textarea
               name="impactOfChange"
+              disabled
               value={formData.impactOfChange}
               onChange={handleChange}
               rows={3}
@@ -249,6 +304,7 @@ const ViewChangeControlRequestForm = ({
             </label>
             <textarea
               name="proposedAction"
+              disabled
               value={formData.proposedAction}
               onChange={handleChange}
               rows={3}
@@ -257,7 +313,7 @@ const ViewChangeControlRequestForm = ({
           </div>
 
           {/* Status */}
-          <div className={isDeveloper && isModifiable ? "hidden " : "block"}>
+          <div className={isDeveloper ? "hidden " : "block"}>
             <label htmlFor="status" className="block mb-2">
               Status
             </label>
@@ -268,20 +324,21 @@ const ViewChangeControlRequestForm = ({
               className="w-full rounded-md bg-blue-800 border border-blue-700 p-2 disabled:"
               required={!isDeveloper}
             >
-              <option value="In Review">In Review</option>
-              <option value="Approved">Approved</option>
-              <option value="Rejected">Rejected</option>
+              <option value="IN_REVIEW">In Review</option>
+              <option value="APPROVED">Approved</option>
+              <option value="REJECTED">Rejected</option>
             </select>
           </div>
 
           {/* Approval Date */}
-          <div className={isDeveloper && isModifiable ? "hidden " : "block"}>
+          <div className={isDeveloper ? "hidden " : "block" + "disabled:"}>
             <label htmlFor="approvalDate" className="block mb-2">
               Approval Date
             </label>
             <input
               type="date"
               name="approvalDate"
+              disabled
               value={formattedDate}
               onChange={handleChange}
               className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
@@ -290,14 +347,15 @@ const ViewChangeControlRequestForm = ({
           </div>
 
           {/* Approved By */}
-          <div className={isDeveloper && isModifiable ? "hidden" : "block"}>
+          <div className={isDeveloper ? "hidden" : "block"}>
             <label htmlFor="approvedBy" className="block mb-2">
               Approved By
             </label>
             <input
               type="text"
               name="approvedBy"
-              value={manager_id}
+              disabled
+              value={userName}
               onChange={handleChange}
               className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
               required={!isDeveloper}
@@ -305,12 +363,22 @@ const ViewChangeControlRequestForm = ({
           </div>
 
           <div className="flex justify-end mt-6 ">
-            <button
-              type="submit"
-              className="bg-blue-700 hover:bg-blue-600 rounded-md px-4 py-2 font-bold"
-            >
-              Submit Request
-            </button>
+            {isDeveloper ? (
+              <Link
+                className="bg-blue-700 hover:bg-blue-600 rounded-md px-4 py-2 font-bold"
+                href={"/dashboard/[user_id]"}
+                as={`/dashboard/${userId}`}
+              >
+                Back
+              </Link>
+            ) : (
+              <button
+                type="submit"
+                className="bg-blue-700 hover:bg-blue-600 rounded-md px-4 py-2 font-bold"
+              >
+                Submit Request
+              </button>
+            )}
           </div>
         </div>
       </form>

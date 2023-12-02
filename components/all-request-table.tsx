@@ -25,7 +25,13 @@ interface Request {
   };
 }
 
-const AllRequestTable: React.FC = () => {
+const AllRequestTable = ({
+  userId,
+  isManager,
+}: {
+  userId: string;
+  isManager?: boolean;
+}) => {
   const supabase = createClient();
   const [requests, setRequests] = useState<any[]>([]);
 
@@ -33,7 +39,7 @@ const AllRequestTable: React.FC = () => {
     const { data, error } = await supabase
       .from("change_request")
       .select(
-        `change_description, change_reason, created_at, id, impact_change, project_name, proposed_action, request_name, requested_by(user_name)`
+        `change_description, change_reason, created_at, id, impact_change, project_name, proposed_action, request_name, requested_by(user_name, user_last_name)`
       );
     if (error) {
       throw error;
@@ -85,7 +91,7 @@ const AllRequestTable: React.FC = () => {
               <th>Change Description</th>
               <th>Change Reason</th>
               <th>Impact of Change</th>
-              <th>Requested by</th>
+              {isManager ? <th>Requested By</th> : <th>Approved By</th>}
               <th>Status</th>
               <th>Options</th>
             </tr>
@@ -97,7 +103,21 @@ const AllRequestTable: React.FC = () => {
                 <td>{request.change_description}</td>
                 <td>{request.change_reason}</td>
                 <td>{request.impact_change}</td>
-                <td>{request.requested_by.user_name}</td>
+                {isManager ? (
+                  <td>
+                    {request.requested_by.user_name +
+                      " " +
+                      request.requested_by.user_last_name}
+                  </td>
+                ) : (
+                  <td>
+                    {request.reviewRequestData
+                      ? request.reviewRequestData?.manager_id.user_name +
+                        " " +
+                        request.reviewRequestData?.manager_id.user_last_name
+                      : "Pending"}
+                  </td>
+                )}
                 <td>
                   {request.reviewRequestData
                     ? request.reviewRequestData.status
@@ -107,7 +127,7 @@ const AllRequestTable: React.FC = () => {
                   <Link
                     className="py-2 px-4 rounded-md no-underline bg-slate-100 text-black dark:text-white dark:bg-btn-background hover:bg-btn-background-hover"
                     href={"/view-request/[request_id]"}
-                    as={`/view-request/${request.id}`}
+                    as={`${userId}/view-request/${request.id}`}
                   >
                     View
                   </Link>

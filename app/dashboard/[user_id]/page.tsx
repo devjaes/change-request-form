@@ -32,7 +32,7 @@ const Page = async ({ params }: { params: { user_id: string } }) => {
       {user_role === "MANAGER" ? (
         <>
           <UsersTable />
-          <AllRequestTable />
+          <AllRequestTable userId={params.user_id} isManager={true} />
         </>
       ) : (
         <>
@@ -45,7 +45,7 @@ const Page = async ({ params }: { params: { user_id: string } }) => {
               Crear petición
             </p>
           </Link>
-          <AllRequestTable />
+          <AllRequestTable userId={params.user_id} isManager={false} />
           <ChangeControlRequestForm
             user_id={params.user_id}
             user_name={user_name}
