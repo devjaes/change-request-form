@@ -68,9 +68,11 @@ const ChangeControlRequestForm = ({
     <div className="flex justify-center p-8">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-4xl bg-blue-900 text-white p-6 rounded-lg"
+        className="w-full max-w-4xl bg-chetwode-blue-600 text-chetwode-blue-100 p-6 rounded-lg"
       >
-        <h2 className="text-2xl font-bold mb-6">Change Control Request Form</h2>
+        <div className="flex justify-center ">
+          <h2 className="text-2xl font-bold mb-6">Change Control Request Form</h2>
+        </div>
 
         <div className="grid grid-cols-1 gap-6">
           {/* Project Name */}
@@ -83,7 +85,7 @@ const ChangeControlRequestForm = ({
               name="projectName"
               value={formData.projectName}
               onChange={handleChange}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2 disabled:"
+              className="text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2 disabled:"
               required
             />
           </div>
@@ -101,7 +103,7 @@ const ChangeControlRequestForm = ({
                   value={formData.requestedBy}
                   disabled
                   onChange={handleChange}
-                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  className=" text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
                   required
                 />
               </div>
@@ -117,7 +119,7 @@ const ChangeControlRequestForm = ({
                   value={formData.requestNo}
                   disabled
                   onChange={handleChange}
-                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  className=" text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
                   required
                 />
               </div>
@@ -134,7 +136,7 @@ const ChangeControlRequestForm = ({
                   value={formData.date}
                   disabled
                   onChange={handleChange}
-                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  className="text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
                   required
                 />
               </div>
@@ -149,7 +151,7 @@ const ChangeControlRequestForm = ({
                   name="nameOfRequest"
                   value={formData.nameOfRequest}
                   onChange={handleChange}
-                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  className="text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
                   required
                 />
               </div>
@@ -166,7 +168,7 @@ const ChangeControlRequestForm = ({
               value={formData.changeDescription}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
               required
             />
           </div>
@@ -181,7 +183,7 @@ const ChangeControlRequestForm = ({
               value={formData.changeReason}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
               required
             />
           </div>
@@ -196,7 +198,7 @@ const ChangeControlRequestForm = ({
               value={formData.impactOfChange}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
               required
             />
           </div>
@@ -211,7 +213,7 @@ const ChangeControlRequestForm = ({
               value={formData.proposedAction}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
               required
             />
           </div>
@@ -219,7 +221,7 @@ const ChangeControlRequestForm = ({
           <div className="flex justify-end mt-6 ">
             <button
               type="submit"
-              className="bg-blue-700 hover:bg-blue-600 rounded-md px-4 py-2 font-bold"
+              className="bg-chetwode-blue-800 hover:bg-chetwode-blue-900 rounded-md px-4 py-2 font-bold "
             >
               Submit Request
             </button>
