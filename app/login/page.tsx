@@ -56,7 +56,7 @@ export default function Login({
     <>
       <Link
         href="/"
-        className="absolute left-8 top-4 py-2 px-4 rounded-md no-underline text-foreground bg-purple-700 hover:bg-chetwode-blue-500 flex items-center group text-sm"
+        className="absolute left-8 top-4 py-2 px-4 rounded-md no-underline text-foreground bg-purple-700 hover:bg-chetwode-blue-500 flex items-center group text-sm text-white"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -83,12 +83,12 @@ export default function Login({
             className="object-cover h-full w-full rounded-l-lg"
           />
 
-          <div className="flex flex-col items-center justify-center text-foreground text-center text-4xl p-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-chetwode-blue-50 font-light">
+          <div className="flex flex-col items-center justify-center text-foreground text-center text-4xl p-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-light">
             <p>Change Request </p>
           </div>
         </div>
         <form
-          className="animate-in flex flex-col w-full justify-center gap-2 text-foreground p-8 px-20 text-chetwode-blue-700 "
+          className="animate-in flex flex-col w-full justify-center gap-2 text-foreground p-8 px-20 text-white  "
           action={signIn}
         >
           <h1 className="text-3xl font-bold text-center text-white mb-6">

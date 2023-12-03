@@ -114,39 +114,38 @@ const AllRequestTable = ({
               <th className="border border-chetwode-blue-700 w-40">Options</th>
             </tr>
           </thead>
-          <tbody className="text-black text-center border h-14 ">
+          <tbody className="text-black text-center h-14 ">
             {requests.map((request, index) => (
               <tr
                 key={request.id}
-                className={`${
-                  index % 2 === 0 ? "bg-white" : "bg-gray-100"
-                } h-12`}
+                className={`${index % 2 === 0 ? "bg-white" : "bg-gray-100"
+                  } h-12`}
               >
-                <td className="border">{request.request_name}</td>
-                <td className="border ">{request.change_description}</td>
-                <td className="border ">{request.change_reason}</td>
-                <td className="border ">{request.impact_change}</td>
+                <td>{request.request_name}</td>
+                <td>{request.change_description}</td>
+                <td>{request.change_reason}</td>
+                <td>{request.impact_change}</td>
                 {isManager ? (
-                  <td className="border ">
+                  <td>
                     {request.requested_by.user_name +
                       " " +
                       request.requested_by.user_last_name}
                   </td>
                 ) : (
-                  <td className="border ">
+                  <td>
                     {request.reviewRequestData
                       ? request.reviewRequestData?.manager_id.user_name +
-                        " " +
-                        request.reviewRequestData?.manager_id.user_last_name
+                      " " +
+                      request.reviewRequestData?.manager_id.user_last_name
                       : "Pending"}
                   </td>
                 )}
-                <td className="border ">
+                <td>
                   {request.reviewRequestData
                     ? request.reviewRequestData.status
                     : "Pending"}
                 </td>
-                <td className="border ">
+                <td>
                   <Link
                     className=" px-4 rounded-md no-underline  text-black hover:text-chetwode-blue-400"
                     href={"/view-request/[request_id]"}

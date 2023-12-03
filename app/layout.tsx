@@ -30,7 +30,7 @@ export default function RootLayout({
             </div>
           </div>
         </nav>
-        <main className="h-screen bg-white flex flex-col justify-center items-center ">
+        <main className="min-h-screen bg-white flex flex-col justify-center items-center ">
           {children}
         </main>
       </body>
