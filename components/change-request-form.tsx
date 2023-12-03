@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-
+import { useRouter } from "next/navigation";
 interface RequestFormProps {
   last_request_id?: number;
   user_id: string;
@@ -15,6 +15,7 @@ const ChangeControlRequestForm = ({
   user_name,
   user_last_name,
 }: RequestFormProps) => {
+  const router = useRouter();
   const supabase = createClient();
   const getActualDate = new Date();
   const formattedDate = getActualDate.toISOString().slice(0, 10);
@@ -29,6 +30,13 @@ const ChangeControlRequestForm = ({
     impactOfChange: "",
     proposedAction: "",
   });
+
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      requestedBy: user_name + " " + user_last_name,
+    }));
+  }, [user_name, user_last_name]);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -61,6 +69,7 @@ const ChangeControlRequestForm = ({
       return;
     } else {
       console.log("Success");
+      router.push("/dashboard/" + user_id);
     }
   };
 
@@ -71,7 +80,9 @@ const ChangeControlRequestForm = ({
         className="w-full max-w-4xl bg-chetwode-blue-600 text-chetwode-blue-100 p-6 rounded-lg"
       >
         <div className="flex justify-center ">
-          <h2 className="text-2xl font-bold mb-6">Change Control Request Form</h2>
+          <h2 className="text-2xl font-bold mb-6">
+            Change Control Request Form
+          </h2>
         </div>
 
         <div className="grid grid-cols-1 gap-6">

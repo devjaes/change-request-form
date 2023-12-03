@@ -1,35 +1,42 @@
+"use client";
+
 import AllRequestTable from "@/components/all-request-table";
 import ChangeControlRequestForm from "@/components/change-request-form";
 import RegistrationForm from "@/components/create-user-form";
 import UsersTable from "@/components/users-table";
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const Page = async ({ params }: { params: { user_id: string } }) => {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+const Page = ({ params }: { params: { user_id: string } }) => {
+  const supabase = createClient();
 
-  const { data, error } = await supabase
-    .from("users")
-    .select("user_name, user_last_name, user_role")
-    .eq("user_id", params.user_id);
+  const getUserInfo = async () => {
+    const { data, error } = await supabase
+      .from("users")
+      .select("user_name, user_last_name, user_role")
+      .eq("user_id", params.user_id);
 
-  if (error) {
-    console.log(error.message, params.user_id);
-    return redirect("/login?message=Could not authenticate user");
-  }
-  const user_name = data[0].user_name;
-  const user_lastName = data[0].user_last_name;
-  const user_role = data[0].user_role;
+    if (error) {
+      console.log(error.message, params.user_id);
+      return redirect("/login?message=Could not authenticate user");
+    }
+    return data[0];
+  };
+
+  const [data, setData] = useState<any>([]);
+
+  useEffect(() => {
+    getUserInfo().then((data) => setData(data));
+  }, []);
 
   return (
     <div className="flex flex-col justify-center p-8 w-screen max-w-6xl bg-white text-purple-800">
       <h1 className="text-3xl text-center font-semibold p-4">
-        Dashboard de {user_name}
+        Dashboard de {data.user_name} {data.user_last_name}
       </h1>
-      {user_role === "MANAGER" ? (
+      {data.user_role === "MANAGER" ? (
         <>
           <UsersTable />
           <AllRequestTable userId={params.user_id} isManager={true} />

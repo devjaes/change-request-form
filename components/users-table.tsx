@@ -1,13 +1,26 @@
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
-import React from "react";
+import { createClient } from "@/utils/supabase/client";
+import React, { useEffect } from "react";
 import RegistrationForm from "./create-user-form";
 
-const UsersTable = async () => {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+const UsersTable = () => {
+  const supabase = createClient();
 
-  const { data, error } = await supabase.from("users").select();
+  const [data, setData] = React.useState<any>([]);
+
+  const getUsers = async () => {
+    const { data, error } = await supabase.from("users").select("*");
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    return data;
+  };
+
+  useEffect(() => {
+    getUsers().then((data) => setData(data));
+  }, []);
 
   return (
     <div className="flex flex-col justify-center p-8">
@@ -31,7 +44,7 @@ const UsersTable = async () => {
             </tr>
           </thead>
           <tbody className="text-black text-center border h-11">
-            {data?.map((user, index) => (
+            {data?.map((user: any, index: any) => (
               <tr
                 key={user.user_id}
                 className={`${
