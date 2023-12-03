@@ -166,7 +166,7 @@ const ViewChangeControlRequestForm = ({
     <div className="flex justify-center p-8">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-4xl bg-blue-900 text-white p-6 rounded-lg"
+        className="w-full max-w-4xl bg-chetwode-blue-600 text-chetwode-blue-100  shadow-xl shadow-gray-700 p-6 rounded-lg"
       >
         <h2 className="text-2xl font-bold mb-6">Change Control Request Form</h2>
 
@@ -182,7 +182,7 @@ const ViewChangeControlRequestForm = ({
               disabled
               value={formData.projectName}
               onChange={handleChange}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2 disabled:"
+              className="w-full rounded-md text-chetwode-blue-950 bg-chetwode-blue-100 border border-chetwode-blue-700 p-2 disabled:"
               required
             />
           </div>
@@ -200,7 +200,7 @@ const ViewChangeControlRequestForm = ({
                   value={formData.requestedBy}
                   disabled
                   onChange={handleChange}
-                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  className="w-full rounded-md text-chetwode-blue-950 bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
                 />
               </div>
 
@@ -215,7 +215,7 @@ const ViewChangeControlRequestForm = ({
                   value={formData.requestNo}
                   disabled
                   onChange={handleChange}
-                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  className="w-full rounded-md text-chetwode-blue-950 bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
                 />
               </div>
             </div>
@@ -231,7 +231,7 @@ const ViewChangeControlRequestForm = ({
                   value={formData.date}
                   disabled
                   onChange={handleChange}
-                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  className="w-full rounded-md text-chetwode-blue-950 bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
                 />
               </div>
 
@@ -246,7 +246,7 @@ const ViewChangeControlRequestForm = ({
                   disabled
                   value={formData.nameOfRequest}
                   onChange={handleChange}
-                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  className="w-full rounded-md text-chetwode-blue-950 bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
                 />
               </div>
             </div>
@@ -263,7 +263,7 @@ const ViewChangeControlRequestForm = ({
               value={formData.changeDescription}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="w-full rounded-md text-chetwode-blue-950 bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
             />
           </div>
 
@@ -278,7 +278,7 @@ const ViewChangeControlRequestForm = ({
               value={formData.changeReason}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="w-full rounded-md text-chetwode-blue-950 bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
             />
           </div>
 
@@ -293,7 +293,7 @@ const ViewChangeControlRequestForm = ({
               value={formData.impactOfChange}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="w-full rounded-md text-chetwode-blue-950 bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
             />
           </div>
 
@@ -308,7 +308,7 @@ const ViewChangeControlRequestForm = ({
               value={formData.proposedAction}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="w-full rounded-md text-chetwode-blue-950 bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
             />
           </div>
 
@@ -321,7 +321,7 @@ const ViewChangeControlRequestForm = ({
               name="status"
               value={formData.status}
               onChange={handleChange}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2 disabled:"
+              className="w-full rounded-md text-chetwode-blue-950 bg-chetwode-blue-100 border border-chetwode-blue-700 p-2 disabled:"
               required={!isDeveloper}
             >
               <option value="IN_REVIEW">In Review</option>
@@ -341,7 +341,7 @@ const ViewChangeControlRequestForm = ({
               disabled
               value={formattedDate}
               onChange={handleChange}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="w-full rounded-md text-chetwode-blue-950 bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
               required={!isDeveloper}
             />
           </div>
@@ -357,7 +357,7 @@ const ViewChangeControlRequestForm = ({
               disabled
               value={userName}
               onChange={handleChange}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="w-full rounded-md text-chetwode-blue-950 bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
               required={!isDeveloper}
             />
           </div>
@@ -372,12 +372,21 @@ const ViewChangeControlRequestForm = ({
                 Back
               </Link>
             ) : (
-              <button
-                type="submit"
-                className="bg-blue-700 hover:bg-blue-600 rounded-md px-4 py-2 font-bold"
-              >
-                Submit Request
-              </button>
+              <div className="flex justify-between">
+                <Link
+                  className="bg-red-700 hover:bg-red-600 rounded-md px-4 py-2 m-6 font-bold"
+                  href={"/dashboard/[user_id]"}
+                  as={`/dashboard/${userId}`}
+                >
+                  Cancel
+                </Link>
+                <button
+                  type="submit"
+                  className="bg-purple-900 hover:bg-purple-700 rounded-md px-4 py-2 m-6 font-bold"
+                >
+                  Submit Request
+                </button>
+              </div>
             )}
           </div>
         </div>
