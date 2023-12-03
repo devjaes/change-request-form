@@ -12,35 +12,31 @@ const UsersTable = async () => {
   return (
     <div className="flex flex-col justify-center p-8">
       <div className="flex justify-between">
-        <h2 className="block text-gray-300 text-xl font-bold mb-6">
+        <h2 className="block text-persian-blue-700 text-2xl font-bold mb-6">
           Users Table
         </h2>
         <RegistrationForm />
       </div>
 
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Name
-              </th>
-              <th scope="col" className="px-6 py-3">
+      <div className="flex justify-center w-full">
+        <table className="w-11/12  rounded-md overflow-hidden shadow-xl shadow-gray-500">
+          <thead className="bg-chetwode-blue-700 h-12">
+            <tr className="border h-12 text-white">
+              <th className="border border-chetwode-blue-700 w-40 ">Name</th>
+              <th className="border border-chetwode-blue-700 w-40 ">
                 Lastname
               </th>
-              <th scope="col" className="px-6 py-3">
-                Email
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Role
-              </th>
+              <th className="border border-chetwode-blue-700 w-40 ">Email</th>
+              <th className="border border-chetwode-blue-700 w-40 ">Role</th>
             </tr>
           </thead>
-          <tbody>
-            {data?.map((user) => (
+          <tbody className="text-black text-center border h-11">
+            {data?.map((user, index) => (
               <tr
                 key={user.user_id}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                className={`${
+                  index % 2 === 0 ? "bg-white" : "bg-gray-100"
+                } h-12`}
               >
                 <td className="px-6 py-4">{user.user_name}</td>
                 <td className="px-6 py-4">{user.user_last_name}</td>

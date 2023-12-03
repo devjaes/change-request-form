@@ -2,26 +2,33 @@
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 
-const ChangeControlRequestForm = ({ user_id, user_name, user_last_name }: { user_id: string, user_name: string, user_last_name: string }) => {
+interface RequestFormProps {
+  last_request_id?: number;
+  user_id: string;
+  user_name: string;
+  user_last_name: string;
+}
+
+const ChangeControlRequestForm = ({
+  last_request_id,
+  user_id,
+  user_name,
+  user_last_name,
+}: RequestFormProps) => {
   const supabase = createClient();
   const getActualDate = new Date();
   const formattedDate = getActualDate.toISOString().slice(0, 10);
   const [formData, setFormData] = useState({
     projectName: "",
     requestedBy: user_name + " " + user_last_name,
-    requestNo: "",
+    requestNo: last_request_id ? last_request_id + 1 : "",
     date: formattedDate,
     nameOfRequest: "",
     changeDescription: "",
     changeReason: "",
     impactOfChange: "",
     proposedAction: "",
-    status: "In Review",
-    approvalDate: "",
-    approvedBy: "",
   });
-
-
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -33,27 +40,6 @@ const ChangeControlRequestForm = ({ user_id, user_name, user_last_name }: { user
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
-    const emailApprovedBy = formData.approvedBy;
-    const { data: response } = await supabase
-      .from("users")
-      .select()
-      .eq("user_email", emailApprovedBy);
-
-    let approvedBy;
-    if (response && response.length > 0) {
-      approvedBy = response[0];
-    } else {
-      console.log(null);
-    }
-
-    if (approvedBy?.user_role !== "MANAGER") {
-      console.log("Error al crear usuario");
-      return;
-    } else {
-      console.log("Manager");
-    }
-
 
     const dataToInsert = {
       created_at: formData.date,
@@ -78,15 +64,15 @@ const ChangeControlRequestForm = ({ user_id, user_name, user_last_name }: { user
     }
   };
 
-
-
   return (
     <div className="flex justify-center p-8">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-4xl bg-blue-900 text-white p-6 rounded-lg"
+        className="w-full max-w-4xl bg-chetwode-blue-600 text-chetwode-blue-100 p-6 rounded-lg"
       >
-        <h2 className="text-2xl font-bold mb-6">Change Control Request Form</h2>
+        <div className="flex justify-center ">
+          <h2 className="text-2xl font-bold mb-6">Change Control Request Form</h2>
+        </div>
 
         <div className="grid grid-cols-1 gap-6">
           {/* Project Name */}
@@ -99,7 +85,7 @@ const ChangeControlRequestForm = ({ user_id, user_name, user_last_name }: { user
               name="projectName"
               value={formData.projectName}
               onChange={handleChange}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2 disabled:"
               required
             />
           </div>
@@ -115,8 +101,9 @@ const ChangeControlRequestForm = ({ user_id, user_name, user_last_name }: { user
                   type="text"
                   name="requestedBy"
                   value={formData.requestedBy}
+                  disabled
                   onChange={handleChange}
-                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  className=" text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
                   required
                 />
               </div>
@@ -127,11 +114,12 @@ const ChangeControlRequestForm = ({ user_id, user_name, user_last_name }: { user
                   Request No
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   name="requestNo"
                   value={formData.requestNo}
+                  disabled
                   onChange={handleChange}
-                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  className=" text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
                   required
                 />
               </div>
@@ -148,7 +136,7 @@ const ChangeControlRequestForm = ({ user_id, user_name, user_last_name }: { user
                   value={formData.date}
                   disabled
                   onChange={handleChange}
-                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  className="text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
                   required
                 />
               </div>
@@ -163,7 +151,7 @@ const ChangeControlRequestForm = ({ user_id, user_name, user_last_name }: { user
                   name="nameOfRequest"
                   value={formData.nameOfRequest}
                   onChange={handleChange}
-                  className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+                  className="text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
                   required
                 />
               </div>
@@ -180,7 +168,7 @@ const ChangeControlRequestForm = ({ user_id, user_name, user_last_name }: { user
               value={formData.changeDescription}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
               required
             />
           </div>
@@ -195,7 +183,7 @@ const ChangeControlRequestForm = ({ user_id, user_name, user_last_name }: { user
               value={formData.changeReason}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
               required
             />
           </div>
@@ -210,7 +198,7 @@ const ChangeControlRequestForm = ({ user_id, user_name, user_last_name }: { user
               value={formData.impactOfChange}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
               required
             />
           </div>
@@ -225,62 +213,15 @@ const ChangeControlRequestForm = ({ user_id, user_name, user_last_name }: { user
               value={formData.proposedAction}
               onChange={handleChange}
               rows={3}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
+              className="text-chetwode-blue-950 w-full rounded-md bg-chetwode-blue-100 border border-chetwode-blue-700 p-2"
               required
             />
           </div>
 
-          {/* Status */}
-          <div>
-            <label htmlFor="status" className="block mb-2">
-              Status
-            </label>
-            <select
-              name="status"
-              value={formData.status}
-              onChange={handleChange}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
-            >
-              <option value="In Review">In Review</option>
-              <option value="Approved">Approved</option>
-              <option value="Rejected">Rejected</option>
-            </select>
-          </div>
-
-          {/* Approval Date */}
-          <div>
-            <label htmlFor="approvalDate" className="block mb-2">
-              Approval Date
-            </label>
-            <input
-              type="date"
-              name="approvalDate"
-              value={formData.approvalDate}
-              onChange={handleChange}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
-              required
-            />
-          </div>
-
-          {/* Approved By */}
-          <div>
-            <label htmlFor="approvedBy" className="block mb-2">
-              Approved By
-            </label>
-            <input
-              type="text"
-              name="approvedBy"
-              value={formData.approvedBy}
-              onChange={handleChange}
-              className="w-full rounded-md bg-blue-800 border border-blue-700 p-2"
-              required
-            />
-          </div>
-
-          <div className="flex justify-end mt-6">
+          <div className="flex justify-end mt-6 ">
             <button
               type="submit"
-              className="bg-blue-700 hover:bg-blue-600 rounded-md px-4 py-2 font-bold"
+              className="bg-chetwode-blue-800 hover:bg-chetwode-blue-900 rounded-md px-4 py-2 font-bold "
             >
               Submit Request
             </button>

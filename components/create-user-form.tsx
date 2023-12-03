@@ -69,7 +69,7 @@ const RegistrationForm = () => {
     <div>
       <button
         onClick={() => setModalOpen(true)}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="py-2 px-4 rounded-md no-underline bg-chetwode-blue-600 text-white hover:bg-chetwode-blue-400 font-bold"
       >
         Create User
       </button>
@@ -78,18 +78,18 @@ const RegistrationForm = () => {
         <div className="fixed z-10 inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center">
           <div
             ref={modalRef}
-            className="relative bg-white rounded-lg shadow dark:bg-gray-700"
+            className=" flex justify-center items-center relative bg-chetwode-blue-950 w-1/3 rounded-lg shadow "
           >
             {/* Aquí colocas tu formulario */}
             <form onSubmit={handleSubmit} className="w-full max-w-lg p-8">
               {/* Contenido del formulario */}
-              <h2 className="block text-gray-300 text-xl font-bold mb-6">
+              <h2 className="block text-white  text-center text-xl font-bold mb-6">
                 Registration Form
               </h2>
               <div className="mb-4">
                 <label
                   htmlFor="role"
-                  className="block text-gray-300 text-sm font-bold mb-2"
+                  className="block text-white text-sm font-bold mb-2"
                 >
                   Role
                 </label>
@@ -97,7 +97,7 @@ const RegistrationForm = () => {
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                 >
                   <option value="DEVELOPER">Developer</option>
                   <option value="MANAGER">Manager</option>
@@ -106,7 +106,7 @@ const RegistrationForm = () => {
               <div className="mb-4">
                 <label
                   htmlFor="firstName"
-                  className="block text-gray-300 text-sm font-bold mb-2"
+                  className="block text-white text-sm font-bold mb-2"
                 >
                   First Name
                 </label>
@@ -115,14 +115,14 @@ const RegistrationForm = () => {
                   name="user_name"
                   value={formData.user_name}
                   onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
               </div>
               <div className="mb-4">
                 <label
                   htmlFor="lastName"
-                  className="block text-gray-300 text-sm font-bold mb-2"
+                  className="block text-white text-sm font-bold mb-2"
                 >
                   Last Name
                 </label>
@@ -131,14 +131,14 @@ const RegistrationForm = () => {
                   name="user_last_name"
                   value={formData.user_last_name}
                   onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
               </div>
               <div className="mb-4">
                 <label
                   htmlFor="email"
-                  className="block text-gray-300 text-sm font-bold mb-2"
+                  className="block text-white text-sm font-bold mb-2"
                 >
                   Email
                 </label>
@@ -147,14 +147,14 @@ const RegistrationForm = () => {
                   name="user_email"
                   value={formData.user_email}
                   onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-black mb-3 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
               </div>
               <div className="mb-6">
                 <label
                   htmlFor="password"
-                  className="block text-gray-300 text-sm font-bold mb-2"
+                  className="block text-white text-sm font-bold mb-2"
                 >
                   Password
                 </label>
@@ -163,27 +163,28 @@ const RegistrationForm = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-black mb-3 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
               </div>
-              <div className="flex items-center justify-between">
-                <button
-                  type="submit"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
-                  Register
-                </button>
-              </div>
-              {/* Botón para cerrar el modal */}
-              <div className="flex items-center justify-end">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(false)}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  Close
-                </button>
+              <div className="flex justify-center items-center">
+                <div className="mr-10 w-28">
+                  <button
+                    type="submit"
+                    className="w-28 bg-chetwode-blue-500 hover:bg-persian-blue-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  >
+                    Register
+                  </button>
+                </div>
+                <div className="ml-10  w-28">
+                  <button
+                    type="button"
+                    onClick={() => setModalOpen(false)}
+                    className="w-28 bg-red-600 hover:bg-red-400 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </form>
           </div>
