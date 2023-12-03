@@ -39,7 +39,7 @@ export default async function AuthButton() {
     <div className="flex items-center gap-4 text-md font-semibold">
       Hey, {user_name}!
       <form action={signOut}>
-        <button className="py-2 px-4 rounded-md no-underline bg-persian-blue-800 text-white font-bold hover:bg-chetwode-blue-400">
+        <button className="py-2 px-4 rounded-md no-underline bg-purple-950 text-white font-bold hover:bg-chetwode-blue-900">
           Logout
         </button>
       </form>
@@ -47,7 +47,7 @@ export default async function AuthButton() {
   ) : (
     <Link
       href="/login"
-      className="py-2 px-3 flex rounded-md no-underline bg-persian-blue-800 text-white hover:bg-chetwode-blue-400"
+      className="py-2 px-3 flex rounded-md no-underline bg-purple-950 text-white hover:bg-chetwode-blue-900"
     >
       Login
     </Link>

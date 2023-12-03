@@ -56,7 +56,7 @@ export default function Login({
     <>
       <Link
         href="/"
-        className="absolute left-8 top-12 py-2 px-4 rounded-md no-underline text-foreground bg-chetwode-blue-50 hover:bg-btn-background-hover flex items-center group text-sm"
+        className="absolute left-8 top-4 py-2 px-4 rounded-md no-underline text-foreground bg-purple-700 hover:bg-chetwode-blue-500 flex items-center group text-sm"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -68,13 +68,13 @@ export default function Login({
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"
+          className=" h-4 w-4 transition-transform group-hover:-translate-x-1"
         >
           <polyline points="15 18 9 12 15 6" />
         </svg>{" "}
         Back
       </Link>
-      <div className=" flex drop-shadow-md max-w-4xl  justify-center gap-2 bg-chetwode-blue-200 rounded-lg">
+      <div className=" flex drop-shadow-md max-w-4xl  justify-center gap-2 bg-gradient-to-r from-purple-400 to-purple-900 rounded-lg">
         <div className="animate-in">
           <div className="absolute inset-0 bg-chetwode-blue-950 bg-opacity-40"></div>
           <img
@@ -83,29 +83,22 @@ export default function Login({
             className="object-cover h-full w-full rounded-l-lg"
           />
 
-          <div
-            className="flex flex-col items-center justify-center text-foreground text-center text-4xl font-bold p-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-chetwode-blue-50 "
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-clipboard-text mb-8" width="76" height="76" viewBox="0 0 24 24" stroke-width="1.5" stroke="#E5E8FA" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
-              <path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
-              <path d="M9 12h6" />
-              <path d="M9 16h6" />
-            </svg>
-            <p>Change Request App</p>
+          <div className="flex flex-col items-center justify-center text-foreground text-center text-4xl p-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-chetwode-blue-50 font-light">
+            <p>Change Request </p>
           </div>
         </div>
         <form
           className="animate-in flex flex-col w-full justify-center gap-2 text-foreground p-8 px-20 text-chetwode-blue-700 "
           action={signIn}
         >
-          <h1 className="text-3xl font-bold text-center mb-6">Iniciar Sesión</h1>
-          <label className="text-md " htmlFor="email" >
+          <h1 className="text-3xl font-bold text-center text-white mb-6">
+            Iniciar Sesión
+          </h1>
+          <label className="text-md text-white " htmlFor=" email">
             Email
           </label>
           <input
-            className="rounded-md px-4 py-2 bg-inherit border mb-6 bg-chetwode-blue-50"
+            className="rounded-md px-4 py-2 bg-inherit border mb-6 bg-white text-black"
             name="email"
             placeholder="you@example.com"
             required
@@ -114,30 +107,28 @@ export default function Login({
             Password
           </label>
           <input
-            className="rounded-md px-4 py-2 bg-inherit border mb-6 bg-chetwode-blue-50"
+            className="rounded-md px-4 py-2 bg-inherit border mb-6 bg-white text-black"
             type="password"
             name="password"
             placeholder="••••••••"
             required
           />
-          <button
-            className="bg-chetwode-blue-700 rounded-md px-4 py-2 text-foreground mb-2 text-chetwode-blue-50 hover:bg-chetwode-blue-800"
-          >
+          <button className="bg-gradient-to-l from-purple-500 to-purple-950 rounded-md px-4 py-2 text-foreground mb-2 text-white font-bold hover:bg-chetwode-blue-800">
             Sign In
           </button>
-          <button
+          {/* <button
             formAction={signUp}
-            className="border border-chetwode-blue-700 text-chetwode-blue-700 rounded-md px-4 py-2 text-foreground mb-2 hover:bg-chetwode-blue-300 hover:text-chetwode-blue-900"
+            className="border border-white text-white font-bold rounded-md px-4 py-2 text-foreground mb-2 hover:bg-chetwode-blue-600 "
           >
             Sign Up
-          </button>
+          </button> */}
           {searchParams?.message && (
             <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
               {searchParams.message}
             </p>
           )}
         </form>
-      </div >
+      </div>
     </>
   );
 }
