@@ -25,13 +25,13 @@ const JoinDashboard = async () => {
           objectFit="cover"
         />
         <div className="absolute inset-0 flex flex-col gap-4 items-center justify-center bg-black bg-opacity-60 ">
-          <h1 className="text-8xl font-semibold text-white">Bienvenido de vuelta!</h1>
+          <h1 className="text-6xl font-semibold text-white">Bienvenido de vuelta!</h1>
           {user?.id ? (
             <>
               <p className="font-thin italic text-white text-xl">Genera solicitudes de cambio para tus proyectos en un instante</p>
               <Link
                 href={`/dashboard/${user.id}`}
-                className="bg-gradient-to-r from-chetwode-blue-700 to-purple-950 text-white font-extra-light p-3 rounded-lg text-xl px-14 py-6 mt-8"
+                className="bg-gradient-to-r from-chetwode-blue-700 to-purple-950 text-white font-extra-light p-3 rounded-lg text-lg px-10 py-6 mt-8"
               >
                 Join Dashboard
               </Link>
@@ -41,7 +41,7 @@ const JoinDashboard = async () => {
               <p className="font-thin italic text-white text-xl"> Inicia sesión para acceder a tu dashboard </p>
               <Link
                 href={`/login`}
-                className="bg-gradient-to-r from-chetwode-blue-700 to-purple-950 text-white font-extra-light p-3 rounded-lg text-xl px-14 py-6 mt-8"
+                className="bg-gradient-to-r from-chetwode-blue-700 to-purple-950 text-white font-extra-light p-3 rounded-lg text-xl px-10 py-6 mt-8"
               >
                 Iniciar sesión
               </Link>

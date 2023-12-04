@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 interface RequestFormProps {
   last_request_id?: number;
   user_id: string;
@@ -229,7 +230,14 @@ const ChangeControlRequestForm = ({
             />
           </div>
 
-          <div className="flex justify-end mt-6 ">
+          <div className="flex justify-end gap-4">
+            <Link
+              className="bg-red-700 hover:bg-red-600 rounded-md px-4 py-2 font-bold"
+              href={"/dashboard/[user_id]"}
+              as={`/dashboard/${user_id}`}
+            >
+              Cancel
+            </Link>
             <button
               type="submit"
               className="bg-chetwode-blue-800 hover:bg-chetwode-blue-900 rounded-md px-4 py-2 font-bold "
