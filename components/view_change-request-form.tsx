@@ -14,6 +14,7 @@ const ViewChangeControlRequestForm = ({
 }: RequestFormProps) => {
   const supabase = createClient();
   const [isDeveloper, setIsDeveloper] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const checkUserRole = async () => {
     const { data, error } = await supabase
@@ -120,8 +121,8 @@ const ViewChangeControlRequestForm = ({
     projectName: requestsData?.project_name || "",
     requestedBy:
       requestsData?.requested_by?.user_name +
-        " " +
-        requestsData?.requested_by?.user_last_name || "",
+      " " +
+      requestsData?.requested_by?.user_last_name || "",
     requestNo: requestsData?.id || "",
     date: requestsData?.created_at || "",
     nameOfRequest: requestsData?.request_name || "",
@@ -141,6 +142,7 @@ const ViewChangeControlRequestForm = ({
   };
 
   const handleSubmit = async (e: any) => {
+    setIsLoading(true);
     e.preventDefault();
 
     const dataToInsert = {
@@ -160,10 +162,28 @@ const ViewChangeControlRequestForm = ({
     } else {
       console.log("Success");
     }
+
+    setIsLoading(false);
+
+    window.location.href = `/dashboard/${userId}`;
   };
 
   return (
     <div className="flex justify-center p-8">
+      <div
+        className={
+          isLoading
+            ? "fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center"
+            : "hidden"
+        }
+      >
+        <div className="bg-white rounded-lg w-1/2 py-4 px-8">
+          <h1 className="text-3xl font-bold mb-4">Loading...</h1>
+          <div className="flex justify-center">
+            <div className="loader"></div>
+          </div>
+        </div>
+      </div>
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-4xl bg-chetwode-blue-600 text-chetwode-blue-100  shadow-xl shadow-gray-700 p-6 rounded-lg"

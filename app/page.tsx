@@ -8,14 +8,6 @@ export default async function Index() {
           <JoinDashboard />
         </main>
       </div>
-
-      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-        <p>
-          Emilia Galarza, Jair Mera, Pablo Villacrés, Daniel Zhu. 2023.
-          <br />
-          All rights reserved.
-        </p>
-      </footer>
     </div>
   );
 }

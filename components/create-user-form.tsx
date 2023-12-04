@@ -63,6 +63,8 @@ const RegistrationForm = () => {
     }
 
     setModalOpen(false);
+
+    window.location.reload();
   };
 
   return (
